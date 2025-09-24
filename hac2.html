@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>¡ALERTA DE HACKEO!</title>
 <style>
-  body {
+body {
     margin: 0;
     padding: 0;
     background-color: black;
@@ -17,51 +17,78 @@
     flex-direction: column;
     height: 100vh;
     overflow: hidden;
-  }
+}
 
 #messages {
     text-align: center;
-    font-size: 3vw; /* antes 4vw */
+    font-size: 3vw;
     line-height: 1.6em;
     max-width: 90%;
     padding: 0 5%;
     overflow-y: auto;
-    max-height: 70vh;
+    max-height: 60vh;
 }
 
-@media (max-width: 480px) {
-    #messages {
-      font-size: 4vw; /* antes 5vw */
-      line-height: 1.4em;
-    }
-    #revealButton {
-      font-size: 5vw; /* antes 6vw */
-      padding: 12px 20px;
-    }
+#revealButton {
+    margin-top: 20px;
+    padding: 12px 25px;
+    font-size: 5vw;
+    background-color: red;
+    color: white;
+    border: none;
+    border-radius: 12px;
+    cursor: pointer;
+    display: none;
+    transition: transform 0.2s;
 }
-  #revealButton {
-    margin-top: 30px;
-    padding: 15px 30px;
-    font-size: 1.2em;
+
+#revealButton:hover {
+    transform: scale(1.1);
+}
+
+/* Modal */
+#modal {
+    display: none;
+    position: fixed;
+    z-index: 10;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0,0,0,0.9);
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    color: #00ff00;
+    font-size: 4vw;
+    text-align: center;
+    padding: 20px;
+}
+
+#modal button {
+    margin-top: 20px;
+    padding: 10px 20px;
+    font-size: 4vw;
     background-color: red;
     color: white;
     border: none;
     border-radius: 10px;
     cursor: pointer;
-    display: none;
-    transition: transform 0.2s;
-  }
-
-  #revealButton:hover {
-    transform: scale(1.1);
-  }
+}
 
 </style>
 </head>
 <body>
 
 <div id="messages"></div>
-<button id="revealButton" onclick="revealBroma()">Liberar mi teléfono</button>
+<button id="revealButton" onclick="showModal()">Liberar mi teléfono</button>
+
+<!-- Modal -->
+<div id="modal">
+    😎 Tranquilo, ¡esto era solo una broma de <strong>We One Consultores</strong>! 🎉<br>
+    Ningún dato fue robado 😅
+    <button onclick="closeModal()">Cerrar</button>
+</div>
 
 <script>
 const messages = [
@@ -85,23 +112,21 @@ function showMessages() {
   if(i < messages.length) {
     let delay = 1500 + Math.random() * 1000;
     messagesDiv.innerHTML += messages[i] + "<br>";
+    messagesDiv.scrollTop = messagesDiv.scrollHeight;
     i++;
     setTimeout(showMessages, delay);
   } else {
-    // Iniciar efecto de pantalla tildada
     startFreezeEffect();
   }
 }
 
 function startFreezeEffect() {
-  messagesDiv.innerHTML += "<br>⚠️ Pantalla tildada... no puedes interactuar por 1 minuto ⚠️<br>";
-  // Bloquea el botón temporalmente
+  messagesDiv.innerHTML += "<br>⚠️ Pantalla tildada... no puedes interactuar por 10 segundos ⚠️<br>";
   const button = document.getElementById('revealButton');
   button.style.display = 'none';
 
-  const endTime = Date.now() + 30000; // 1 minuto
+  const endTime = Date.now() + 10000; // 10 segundos
   const interval = setInterval(() => {
-    // Parpadeo y cambio de colores simulando fallo
     document.body.style.backgroundColor = (Math.random() < 0.5 ? "#111" : "black");
     messagesDiv.style.color = (Math.random() < 0.5 ? "#ff0000" : "#00ff00");
 
@@ -115,8 +140,12 @@ function startFreezeEffect() {
   }, 300);
 }
 
-function revealBroma() {
-  messagesDiv.innerHTML = "😎 Tranquilo, ¡esto era solo una broma de <strong>We One Consultores</strong>! 🎉<br> Ningún dato fue robado 😅";
+function showModal() {
+    document.getElementById('modal').style.display = 'flex';
+}
+
+function closeModal() {
+    document.getElementById('modal').style.display = 'none';
 }
 
 showMessages();
@@ -124,4 +153,3 @@ showMessages();
 
 </body>
 </html>
-
