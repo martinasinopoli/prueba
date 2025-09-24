@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>¡ALERTA DE HACKEO!</title>
+<style>
+  body {
+    margin: 0;
+    padding: 0;
+    background-color: black;
+    color: #00ff00;
+    font-family: 'Courier New', Courier, monospace;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    height: 100vh;
+    overflow: hidden;
+  }
+
+  #messages {
+    text-align: center;
+    font-size: 1.5em;
+    line-height: 2em;
+    max-width: 90%;
+  }
+
+  #revealButton {
+    margin-top: 30px;
+    padding: 15px 30px;
+    font-size: 1.2em;
+    background-color: red;
+    color: white;
+    border: none;
+    border-radius: 10px;
+    cursor: pointer;
+    display: none;
+    transition: transform 0.2s;
+  }
+
+  #revealButton:hover {
+    transform: scale(1.1);
+  }
+
+</style>
+</head>
+<body>
+
+<div id="messages"></div>
+<button id="revealButton" onclick="revealBroma()">Liberar mi teléfono</button>
+
+<script>
+const messages = [
+  "⚠️ INTRUSIÓN DETECTADA ⚠️",
+  "Conexión no autorizada detectada...",
+  "Escaneando archivos del sistema...",
+  "Buscando fotos, contactos y contraseñas...",
+  "Descargando datos sensibles...",
+  "📂 Robando documentos personales...",
+  "📡 Localizando tu dispositivo...",
+  "🔒 Activando protocolos avanzados...",
+  "ERROR: Sistema comprometido",
+  "⚠️ TODOS LOS DATOS HAN SIDO ROBADOS ⚠️",
+  "😱 ¡Tu teléfono ha sido hackeado!",
+];
+
+const messagesDiv = document.getElementById('messages');
+let i = 0;
+
+function showMessages() {
+  if(i < messages.length) {
+    let delay = 1500 + Math.random() * 1000;
+    messagesDiv.innerHTML += messages[i] + "<br>";
+    i++;
+    setTimeout(showMessages, delay);
+  } else {
+    // Iniciar efecto de pantalla tildada
+    startFreezeEffect();
+  }
+}
+
+function startFreezeEffect() {
+  messagesDiv.innerHTML += "<br>⚠️ Pantalla tildada... no puedes interactuar por 1 minuto ⚠️<br>";
+  // Bloquea el botón temporalmente
+  const button = document.getElementById('revealButton');
+  button.style.display = 'none';
+
+  const endTime = Date.now() + 60000; // 1 minuto
+  const interval = setInterval(() => {
+    // Parpadeo y cambio de colores simulando fallo
+    document.body.style.backgroundColor = (Math.random() < 0.5 ? "#111" : "black");
+    messagesDiv.style.color = (Math.random() < 0.5 ? "#ff0000" : "#00ff00");
+
+    if(Date.now() > endTime) {
+      clearInterval(interval);
+      messagesDiv.innerHTML += "<br>✅ Pantalla liberada, puedes continuar<br>";
+      messagesDiv.style.color = "#00ff00";
+      document.body.style.backgroundColor = "black";
+      button.style.display = 'inline-block';
+    }
+  }, 300);
+}
+
+function revealBroma() {
+  messagesDiv.innerHTML = "😎 Tranquilo, ¡esto era solo una broma de <strong>We One Consultores</strong>! 🎉<br> Ningún dato fue robado 😅";
+}
+
+showMessages();
+</script>
+
+</body>
+</html>
