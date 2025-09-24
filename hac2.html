@@ -21,19 +21,22 @@
 
   #messages {
     text-align: center;
-    font-size: 1.5em;
-    line-height: 2em;
+    font-size: 4vw; /* tamaño de fuente adaptable */
+    line-height: 1.6em;
     max-width: 90%;
+    padding: 0 5%;
+    overflow-y: auto;
+    max-height: 70vh;
   }
 
   #revealButton {
-    margin-top: 30px;
-    padding: 15px 30px;
-    font-size: 1.2em;
+    margin-top: 20px;
+    padding: 15px 25px;
+    font-size: 5vw; /* tamaño adaptable en celular */
     background-color: red;
     color: white;
     border: none;
-    border-radius: 10px;
+    border-radius: 12px;
     cursor: pointer;
     display: none;
     transition: transform 0.2s;
@@ -41,6 +44,17 @@
 
   #revealButton:hover {
     transform: scale(1.1);
+  }
+
+  @media (max-width: 480px) {
+    #messages {
+      font-size: 5vw;
+      line-height: 1.4em;
+    }
+    #revealButton {
+      font-size: 6vw;
+      padding: 12px 20px;
+    }
   }
 
 </style>
@@ -72,23 +86,21 @@ function showMessages() {
   if(i < messages.length) {
     let delay = 1500 + Math.random() * 1000;
     messagesDiv.innerHTML += messages[i] + "<br>";
+    messagesDiv.scrollTop = messagesDiv.scrollHeight; // auto scroll
     i++;
     setTimeout(showMessages, delay);
   } else {
-    // Iniciar efecto de pantalla tildada
     startFreezeEffect();
   }
 }
 
 function startFreezeEffect() {
-  messagesDiv.innerHTML += "<br>⚠️ Pantalla tildada... no puedes interactuar por 1 minuto ⚠️<br>";
-  // Bloquea el botón temporalmente
+  messagesDiv.innerHTML += "<br>⚠️ Pantalla tildada... no puedes interactuar por 10 segundos ⚠️<br>";
   const button = document.getElementById('revealButton');
   button.style.display = 'none';
 
-  const endTime = Date.now() + 60000; // 1 minuto
+  const endTime = Date.now() + 10000; // 10 segundos para móvil
   const interval = setInterval(() => {
-    // Parpadeo y cambio de colores simulando fallo
     document.body.style.backgroundColor = (Math.random() < 0.5 ? "#111" : "black");
     messagesDiv.style.color = (Math.random() < 0.5 ? "#ff0000" : "#00ff00");
 
