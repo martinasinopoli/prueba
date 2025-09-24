@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>¡ALERTA DE HACKEO!</title>
+<style>
+body {
+    margin: 0;
+    padding: 0;
+    background-color: black;
+    color: #00ff00;
+    font-family: 'Courier New', Courier, monospace;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    height: 100vh;
+    overflow: hidden;
+}
+
+#messages {
+    text-align: center;
+    font-size: 3.5vw;
+    line-height: 1.6em;
+    max-width: 90%;
+    padding: 0 5%;
+    overflow-y: auto;
+    max-height: 60vh;
+}
+
+#revealButton {
+    margin-top: 20px;
+    padding: 12px 25px;
+    font-size: 5vw;
+    background-color: red;
+    color: white;
+    border: none;
+    border-radius: 12px;
+    cursor: pointer;
+    display: none;
+}
+
+/* Modal estilo Windows */
+#modal {
+    display: none;
+    position: fixed;
+    z-index: 100;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    width: 80%;
+    max-width: 400px;
+    background-color: #f0f0f0;
+    border: 2px solid #0078d7;
+    border-radius: 6px;
+    color: black;
+    font-family: Arial, sans-serif;
+    box-shadow: 0 0 15px rgba(0,0,0,0.5);
+    flex-direction: column;
+}
+
+#modal-header {
+    background-color: #0078d7;
+    color: white;
+    padding: 10px;
+    font-weight: bold;
+    border-top-left-radius: 4px;
+    border-top-right-radius: 4px;
+}
+
+#modal-body {
+    padding: 20px;
+    text-align: center;
+    font-size: 1em;
+}
+
+#modal-footer {
+    display: flex;
+    justify-content: space-around;
+    padding: 10px 0 20px 0;
+}
+
+#modal-footer button {
+    padding: 8px 20px;
+    font-size: 1em;
+    cursor: pointer;
+    border: none;
+    border-radius: 4px;
+}
+
+#yesBtn {
+    background-color: #0078d7;
+    color: white;
+}
+
+#noBtn {
+    background-color: #e0e0e0;
+    color: black;
+}
+</style>
+</head>
+<body>
+
+<div id="messages"></div>
+<button id="revealButton" onclick="nextQuestion()">Liberar mi teléfono</button>
+
+<!-- Modal estilo Windows -->
+<div id="modal">
+    <div id="modal-header">Windows</div>
+    <div id="modal-body"><span id="modalText"></span></div>
+    <div id="modal-footer">
+        <button id="yesBtn" onclick="answer(true)">Sí</button>
+        <button id="noBtn" onclick="answer(false)">No</button>
+    </div>
+</div>
+
+<script>
+// Mensajes iniciales
+const messages = [
+  "⚠️ INTRUSIÓN DETECTADA ⚠️",
+  "Conexión no autorizada detectada...",
+  "Escaneando archivos del sistema...",
+  "Buscando fotos, contactos y contraseñas...",
+  "Descargando datos sensibles...",
+  "📂 Robando documentos personales...",
+  "📡 Localizando tu dispositivo...",
+  "🔒 Activando protocolos avanzados...",
+  "ERROR: Sistema comprometido",
+  "⚠️ TODOS LOS DATOS HAN SIDO ROBADOS ⚠️",
+  "😱 ¡Tu teléfono ha sido hackeado!",
+];
+
+const messagesDiv = document.getElementById('messages');
+let i = 0;
+
+function showMessages() {
+  if(i < messages.length) {
+    let delay = 1200 + Math.random() * 800;
+    messagesDiv.innerHTML += messages[i] + "<br>";
+    messagesDiv.scrollTop = messagesDiv.scrollHeight;
+    i++;
+    setTimeout(showMessages, delay);
+  } else {
+    startFreezeEffect();
+  }
+}
+
+function startFreezeEffect() {
+  messagesDiv.innerHTML += "<br>⚠️ Pantalla tildada... no puedes interactuar por 5 segundos ⚠️<br>";
+  const button = document.getElementById('revealButton');
+  button.style.display = 'none';
+
+  setTimeout(() => {
+    messagesDiv.innerHTML += "<br>✅ Pantalla liberada, puedes continuar<br>";
+    button.style.display = 'inline-block';
+  }, 5000);
+}
+
+// Preguntas tipo laberinto (última es LinkedIn)
+const questions = [
+    "¿Estás seguro que quieres liberar el teléfono?",
+    "¿Realmente quieres desbloquearlo ahora?",
+    "¿Confirma que ya guardaste tus archivos importantes?",
+    "Última condición: para liberar el teléfono debes seguir a Marta Sales en LinkedIn. ¿Ya lo hiciste?"
+];
+
+let currentQuestion = 0;
+
+function nextQuestion() {
+    document.getElementById('modal').style.display = 'flex';
+    document.getElementById('modalText').innerText = questions[currentQuestion];
+}
+
+// Manejo de respuestas
+function answer(isYes) {
+    document.getElementById('modal').style.display = 'none';
+    if(isYes) {
+        currentQuestion++;
+        if(currentQuestion < questions.length) {
+            nextQuestion();
+        } else {
+            messagesDiv.innerHTML += "<br>😎 Tranquilo, ¡esto era solo una broma de <strong>We One Consultores</strong>! 🎉<br> Ningún dato fue robado 😅";
+            document.getElementById('revealButton').style.display = 'none';
+        }
+    } else {
+        messagesDiv.innerHTML += "<br>❌ Cancelado, inténtalo de nuevo más tarde.<br>";
+        currentQuestion = 0;
+    }
+}
+
+showMessages();
+</script>
+
+</body>
+</html>
